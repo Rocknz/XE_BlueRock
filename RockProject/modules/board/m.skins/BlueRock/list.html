@@ -1,0 +1,15 @@
+<div class="bd">
+    <!--@if($oDocument->isExists())-->
+        <!--@if($Content_Num == null) -->
+            <!--#include("read.html")-->
+        <!--@else -->
+            <!--#include("read_list.html")-->
+        <!--@endif -->
+    <!--@else-->
+        <!--@if($cnt != null) -->
+            <!--#include("list_direct.html")-->
+        <!--@else -->
+            <!--#include("list_list.html")-->
+        <!--@endif-->
+    <!--@end-->
+</div>
