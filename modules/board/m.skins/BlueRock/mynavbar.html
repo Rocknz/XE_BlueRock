@@ -1,0 +1,64 @@
+<nav class="navbar navbar-default navbar-fixed-top" >
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="true">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class = "navbar-brand" href="{$layout_info->index_url}"|cond="$layout_info->index_url" href="{geturl('')}"|cond="!$layout_info->index_url">
+                <!--@if($layout_info->logo_image)-->
+                <img src="{$layout_info->logo_image}" alt="{$layout_info->index_title}"|cond="$layout_info->index_title" alt="{Context::getSiteTitle()}"|cond="!$layout_info->index_title && Context::getSiteTitle()" />
+                <!--@elseif($layout_info->index_title)-->
+                <a href="{$layout_info->index_url}">{$layout_info->index_title}</a>
+                <!--@elseif(Context::getSiteTitle())-->
+                {Context::getSiteTitle()}
+                <!--@else-->
+                Mobile XE
+                <!--@end-->
+            </a>
+        </div>
+        <div class="navbar-collapse collapse" id="bs-example-navbar-collapse-1" aria-expanded="true" style="">
+            <ul class="nav navbar-nav navbar-right">
+                <!--@foreach($main_menu->list as $val1) -->
+                <!--@if($val1['list'])-->
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">{$val1['link']}<span class="caret"></span></a>
+                    <ul class="dropdown-menu" role="menu">
+                        <li class="active"|cond="$val1['selected']">
+                            <a href="{$val1['href']}" target="_blank"|cond="$val1['open_window']=='Y'">{$val1['link']}</a>
+                        </li>
+                        <li class="divider"></li>
+                        <!--@foreach($val1['list'] as $val2)-->
+                        <li class="active"|cond="$val2['selected']">
+                            <a href="{$val2['href']}" target="_blank"|cond="$val2['open_window']=='Y'">{$val2['link']}</a>
+                        </li>
+                        <!--@end-->
+                    </ul>
+                </li>
+                <!--@else-->
+                <li class="active"|cond="$val1['selected']">
+                    <a href="{$val1['href']}" target="_blank"|cond="$val1['open_window']=='Y'">{$val1['link']}</a>
+                </li>
+                <!--@endif-->
+                <!--@end-->
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Option<span class="caret"></span></a>
+                    <ul class="dropdown-menu" role="menu">
+                        <!--@if($is_logged)-->
+                        <li><a href="{getUrl('act','dispMemberLogout')}">{$lang->cmd_logout}</a></li>
+                        <li><a href="{getUrl('act','dispMemberInfo')}">{$lang->cmd_view_member_info}</a></li>
+                        <!--@elseif($act!='dispMemberLoginForm')-->
+                        <li><a href="{getUrl('act','dispMemberLoginForm')}">{$lang->cmd_login}...</a></li>
+                        <!--@end-->
+                        <li class="divider"></li>
+                        <li><a href="{getUrl('m',0)}">PC</a></li>
+                        <li class="fr" cond="count($lang_supported)>1"><a href="{getUrl('act','dispModuleChangeLang','oldact',$act)}">LANG</a></li>
+                    </ul>
+
+            </ul>
+            </ul>
+        </div>
+    </div>
+</nav>

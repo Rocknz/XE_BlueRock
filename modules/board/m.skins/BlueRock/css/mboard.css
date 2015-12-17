@@ -1,0 +1,153 @@
+@charset "utf-8";
+
+a.cm{
+    position:fixed;
+    top:60px;
+    right:10px;
+    width:50px;
+    height:50px;
+    background: url("../img/pen.png");
+}
+
+/* List */
+.list_title{
+    background:#30FFFF;
+    border-bottom: 1px solid lightskyblue;
+    padding-left:5px;
+}
+.lt,.lt ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+.lt li {
+    border-bottom: 1px solid #999;
+    cursor: pointer;
+}
+span.cmt{
+    color:#AA5555;
+}
+span.notice{
+    font-size: large;
+    color:#ff0000;
+}
+span.title{
+    font-size: large;
+}
+span.auth{
+    padding-left:1px;
+}
+span.time{
+    font-style:italic;
+    font-size: x-small;
+}
+
+
+div.Notes{
+    border-top: 1px solid #999;
+}
+a.mb{
+    display: block;
+    color: black;
+    width:100%;
+    padding-bottom: 3px;
+    padding-top: 3px;
+    padding-left: 10px;
+}
+a.mb:hover{
+    color: #EEEEEE;
+    font-style: normal;
+    text-decoration: none;
+    background: lightskyblue;
+}
+
+/* Reply */
+.rp {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+.rp ul {
+    margin: 0;
+    padding: 10px 0 0 0;
+}
+.rp li {
+    border-bottom: 1px solid #ccc;
+    padding: 10px;
+    overflow: hidden;
+}
+.rp li li {
+    border-bottom: 0;
+    border-left: 1px solid #ccc;
+}
+.rp li:last-child {
+    border-bottom: 0;
+}
+.rp p {
+    display: inline;
+}
+.rp em,.rp span {
+    color: #666;
+    font-size: 12px;
+}
+.rp span,.rp .md {
+    padding: 0 0 0 5px;
+    border-left: 1px solid #ccc;
+}
+.rp em a {
+    text-decoration: none;
+}
+.rp .md {
+    font-size: 12px;
+}
+/* Read */
+div.read_list_outer{
+    background:deepskyblue;
+    padding-left:35px;
+}
+div.read_list_inner{
+    background: white;
+    padding-left:5px;
+    padding-top:20px;
+    padding-bottom:20px;
+}
+.read_title{
+    background:#30FFFF;
+    border-bottom: 1px solid lightskyblue;
+    padding-left:5px;
+}
+.read_title_span{
+    font-size:30px;
+}
+.read_article{
+    padding:10px;
+}
+.read_btn{
+    width:100%;
+    height:50px;
+}
+.go_to_menu {
+    left:10px;
+    width:50px;
+    height:30px;
+}
+.read_right{
+    position:absolute;
+    right:10px;
+    width:50px;
+    height:30px;
+}
+.read_input_box{
+    padding-left:10px;
+    padding-right:10px;
+}
+.read_list_btn{
+    padding-left:10px;
+    padding-right:10px;
+    width:50%;
+}
+/*comment*/
+.comment_article{
+    padding: 70px 10px 10px 10px;
+    border-bottom: 1px solid lightskyblue;
+}

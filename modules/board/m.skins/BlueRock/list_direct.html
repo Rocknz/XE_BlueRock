@@ -1,0 +1,86 @@
+{@$ncnt = $cnt}
+<ul class="lt">
+    <!--@foreach($document_list as $no => $document)-->
+    <li>
+        <a id="{$cnt}" class="main_button{$page} mb" name="{getUrl('document_srl', $document->document_srl,'Content_Num',$cnt)}">
+            <!--@if($module_info->use_category == "Y" && $document->get('category_srl'))-->
+            {$category_list[$document->get('category_srl')]->title} &rsaquo;
+            <!--@end-->
+            <span class="title">{$document->getTitle($module_info->subject_cut_size)}</span>
+            <!--@if($document->getCommentCount())-->
+            <span class="cmt">[{$document->getCommentCount()}]</span>
+            <!--@endif-->
+            <br>
+            <span class="auth"> {$document->getNickName()} </span>
+            <span> &#124; </span>
+            <!--@if($document->getRegDate("y-m-d") === date("y-m-d"))-->
+            <span class="time">{$document->getRegDate("H:i:s")}</span>
+            <!--@else-->
+            <span class="time">{$document->getRegDate("y-m-d")}</span>
+            <!--@endif-->
+        </a>
+        <div class="Notes" hidden="true" data-name="not-open">
+            <div class="read_list_outer">
+                <div class="read_list_inner">
+                </div>
+            </div>
+        </div>
+    </li>
+    {@$cnt = $cnt + 1}
+    <!--@end-->
+</ul>
+<!--@if($ncnt != $cnt)-->
+<div class="page-{$page}" name="{getUrl('mid',$mid,'document_srl','','page',$page+1,'cnt',$cnt)}">
+
+</div>
+<!--@endif-->
+<script>
+    jQuery(function($){
+        /**
+         * List에서 close하는 부분.
+         */
+        $('div.read_list_outer').click(function(){
+            $(this).parent().prev().click();
+        });
+        $('div.read_list_inner').click(function(e){
+            e.stopPropagation();
+        });
+
+        $('.main_button{$page}').click(function() {
+            $rak_str = '#Notes-' + this.id.toString();
+            $rak_link = this.name.toString();
+            $(this).next().toggle();
+            $rak_name = $(this).next().data().name.toString();
+            if ($rak_name === "not-open") {
+                $(this).next().children().children().load($rak_link);
+                $(this).next().data().name = "open";
+            }else if($rak_name === "open"){
+                $(this).next().children().children().html("");
+                $(this).next().data().name = "not-open";
+            }
+        });
+
+        <!--@if($ncnt != $cnt)-->
+            function loadMore() {
+                str = '.page-' + {$page};
+                if ($(str).attr('name') != 'opened') {
+                    go_str = $(str).attr('name').toString();
+                    $(str).load(go_str);
+                    $(str).attr('name','opened');
+                }
+            }
+
+            function bindScroll(){
+                if($(window).scrollTop() + $(window).height() > $(document).height() - 100) {
+                    $(window).unbind('scroll');
+                    loadMore();
+                }
+            }
+            if($(window).scrollTop() + $(window).height() > $(document).height() - 100) {
+                $(window).unbind('scroll');
+                loadMore();
+            }
+            $(window).scroll(bindScroll);
+        <!--@endif-->
+    });
+</script>

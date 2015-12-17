@@ -1,0 +1,44 @@
+<load target="css/mboard.css"/>
+<load target="js/mboard.js"/>
+<!--#include("mynavbar.html")-->
+<div>
+<!--@if($oSourceComment->isExists())-->
+    <div class="comment_article">{$oSourceComment->getContent(false)}</div>
+<!--@end-->
+
+    <form action="./" method="POST" class="sn tgo open form-horizontal" onsubmit="return procFilter(this, insert_comment);">
+        <input type="hidden" name="mid" value="{$mid}" />
+        <input type="hidden" name="document_srl" value="{$oComment->get('document_srl')}" />
+        <input type="hidden" name="comment_srl" value="{$oComment->get('comment_srl')}" />
+        <input type="hidden" name="parent_srl" value="{$oComment->get('parent_srl')}" />
+        <div class="form-group read_input_box">
+            <label for="rText" class="col-sm-2 control-label">{$lang->comment}</label>
+            <div class="col-sm-8">
+                <textarea name="content" class="form-control" rows="8" cols="20" id="rText" ></textarea>
+            </div>
+        </div>
+        <!--@if(!$is_logged)-->
+        <div class="form-group read_input_box">
+            <label for="uName" class="col-sm-2 control-label">{$lang->writer}</label>
+            <div class="col-sm-8">
+                <input name="nick_name" type="text" class="form-control" id="uName" placeholder="{$lang->writer}">
+            </div>
+        </div>
+        <div class="form-group read_input_box">
+            <label for="uMail" class="col-sm-2 control-label">{$lang->email_address}</label>
+            <div class="col-sm-8">
+                <input name="email_address" type="email" class="form-control" id="uMail" placeholder="{$lang->email_address}">
+            </div>
+        </div>
+        <div class="form-group read_input_box">
+            <label for="uPw" class="col-sm-2 control-label">{$lang->password}</label>
+            <div class="col-sm-8">
+                <input name="password" type="password" class="form-control" id="uPw" placeholder="{$lang->password}">
+            </div>
+        </div>
+        <!--@endif-->
+        <div class="read_input_box">
+            <button type="submit" class="btn-large btn-primary" style="width:100%;height:40px;">{$lang->cmd_comment_registration}</button>
+        </div>
+    </form>
+</div>

@@ -1,0 +1,187 @@
+<load target="css/mboard.css"/>
+<load target="js/mboard.js"/>
+<!--%import("js/bootstrap.min.js")-->
+<!--#include("mynavbar.html")-->
+<div>
+    <div class="read_title">
+        <br><br><br>
+        <span class="read_title_span">
+            <a href="{getUrl('document_srl','','category','','page','')}">{$module_info->browser_title}</a>
+            <!--@if($module_info->use_category == "Y" && $oDocument->get('category_srl'))-->
+            &rsaquo;
+            <a href="{getUrl('document_srl','','category',$oDocument->get('category_srl'))}">
+                {$category_list[$oDocument->get('category_srl')]->title}</a>
+            <!--@end-->
+            &rsaquo; {$oDocument->getTitle()}
+        </span>
+        {$oDocument->getNickName()} | <em>{$oDocument->getRegdate()}</em></div>
+    </div>
+    <div class="read_article">
+        <!--@if($oDocument->isSecret() && !$oDocument->isGranted())-->
+        <form action="./" method="get" class="ff" onsubmit="return procFilter(this, input_password)">
+            <input type="hidden" name="mid" value="{$mid}" />
+            <input type="hidden" name="page" value="{$page}" />
+            <input type="hidden" name="document_srl" value="{$oDocument->document_srl}" />
+            <label for="cpw">{$lang->msg_is_secret}</label>
+            <input type="password" name="password" id="cpw" />
+            <input type="submit" value="{$lang->cmd_input}" class="bn dark" />
+        </form>
+        <!--@else-->
+        <!--@if($oDocument->isExtraVarsExists())-->
+        {@ $_extra_vars = $oDocument->getExtraVars(); }
+        <dl class="xv">
+            <!--@foreach($_extra_vars as $key => $val)-->
+            <dt>{$val->name}</dt>
+            <dd>{$val->getValueHTML()}</dd>
+            <!--@end-->
+        </dl>
+        <!--@end-->
+        {$oDocument->getContent(false)}
+        <!--@end-->
+    </div>
+    <div id="skip_co"></div>
+    <!--@if($oDocument->hasUploadedFiles())-->
+        {@ $uploaded_list = $oDocument->getUploadedFiles() }
+        <button class="tg btn btn-primary" title="open/close" style="width:100%">
+            {$lang->uploaded_file} <em>[{count($uploaded_list)}]</em>
+        </button>
+        <div class="file tgo open" style="padding:10px">
+            <!--@foreach($uploaded_list as $key => $file)-->
+            <a href="{getUrl('')}{$file->download_url}">{$file->source_filename} <span class="size">{FileHandler::filesize($file->file_size)}</span></a>
+            <!--@end-->
+        </div>
+        <br>
+    <!--@endif-->
+
+    <!-- Trackback 부분은 안만듬 ..-->
+    <!--&lt;!&ndash;@if($oDocument->allowTrackback() && $oDocument->getTrackbackCount())&ndash;&gt;-->
+    <!--<div class="hx h3">-->
+        <!--<h3>{$lang->trackback} <em>[{$oDocument->getTrackbackCount()}]</em></h3>-->
+        <!--<button type="button" class="tg" title="open/close"></button>-->
+    <!--</div>-->
+    <!--<ul class="rp tgo open">-->
+        <!--{@ $_trackback_list = $oDocument->getTrackbacks() }-->
+        <!--&lt;!&ndash;@foreach($_trackback_list as $key => $val)&ndash;&gt;-->
+        <!--<li>-->
+            <!--<p>{$val->excerpt}</p>-->
+            <!--<span class="auth">-->
+                <!--<em>{htmlspecialchars($val->title)} - {htmlspecialchars($val->blog_name)}</em>-->
+                <!--<span class="time">{zdate($val->regdate, "Y.m.d")}</span>-->
+                <!--&lt;!&ndash;@if($grant->manager)&ndash;&gt;-->
+                <!--<a href="07_password.html" class="btn de">{$lang->cmd_delete}</a>-->
+                <!--&lt;!&ndash;@endif&ndash;&gt;-->
+            <!--</span>-->
+        <!--</li>-->
+        <!--&lt;!&ndash;@end&ndash;&gt;-->
+    <!--</ul>-->
+    <!--&lt;!&ndash;@endif&ndash;&gt;-->
+
+    <!--//Comment!!! -->
+
+    <!--@if($oDocument->getCommentCount())-->
+        <button class="tg tgr read_btn btn-large btn-primary" title="open/close">
+            {$lang->comment}[{$oDocument->getCommentCount()}]
+        </button>
+        <div id="Comment_Set" class="tgo" hidden="true">
+        </div>
+    <!--@endif-->
+
+    <!--@if($grant->write_comment && $oDocument->isEnableComment() )-->
+        <button class="tg read_btn btn-large btn-primary" title="open/close">
+            {$lang->write_comment}
+        </button>
+
+        <form action="./" method="POST" class="tgo open form-horizontal" onsubmit="return procFilter(this, insert_comment);" hidden="true">
+            <input type="hidden" name="mid" value="{$mid}" />
+            <input type="hidden" name="document_srl" value="{$oDocument->document_srl}" />
+            <input type="hidden" name="comment_srl" value="" />
+
+            <div class="form-group read_input_box">
+                <label for="rText" class="col-sm-2 control-label">{$lang->comment}</label>
+                <div class="col-sm-8">
+                    <textarea name="content" class="form-control" rows="8" cols="20" id="rText" ></textarea>
+                </div>
+            </div>
+            <!--<label for="rText" class="db fb"></label>-->
+            <!--<textarea name="content" rows="8" cols="40" id="rText" class="itxx"></textarea>-->
+            <!--@if(!$is_logged)-->
+            <div class="form-group read_input_box">
+                <label for="uName" class="col-sm-2 control-label">{$lang->writer}</label>
+                <div class="col-sm-8">
+                    <input name="nick_name" type="text" class="form-control" id="uName" placeholder="{$lang->writer}">
+                </div>
+            </div>
+            <!--<li>-->
+                <!--<label for="uName" class="db fb">{$lang->writer}</label>-->
+                <!--<input name="nick_name" type="text" id="uName" class="itx" />-->
+            <!--</li>-->
+            <div class="form-group read_input_box">
+                <label for="uMail" class="col-sm-2 control-label">{$lang->email_address}</label>
+                <div class="col-sm-8">
+                    <input name="email_address" type="email" class="form-control" id="uMail" placeholder="{$lang->email_address}">
+                </div>
+            </div>
+            <!--<li>-->
+                <!--<label for="uMail" class="db fb">{$lang->email_address}</label>-->
+                <!--<input name="email_address" type="email" id="uMail" class="itx" />-->
+            <!--</li>-->
+            <div class="form-group read_input_box">
+                <label for="uPw" class="col-sm-2 control-label">{$lang->password}</label>
+                <div class="col-sm-8">
+                    <input name="password" type="password" class="form-control" id="uPw" placeholder="{$lang->password}">
+                </div>
+            </div>
+            <!--<li>-->
+                <!--<label for="uPw" class="db fb">{$lang->password}</label>-->
+                <!--<input name="password" type="password" id="uPw" class="itx" />-->
+            <!--</li>-->
+            <!--@endif-->
+            <div class="read_input_box">
+                <button type="submit" class="btn-large btn-primary" style="width:100%;height:40px;">{$lang->cmd_registration}</button>
+            </div>
+        </form>
+    <!--@end-->
+    <div>
+        <a href="{getUrl('document_srl','')}" class="btn btn-default go_to_menu">{$lang->cmd_list}</a>
+
+        <!--@if($oDocument->isEditable())-->
+            <a href="{getUrl('act','dispBoardDelete','document_srl',$oDocument->document_srl,'comment_srl','')}" class="btn btn-default read_right">
+                {$lang->cmd_delete}
+            </a>
+
+        <!--@end-->
+    </div>
+</div>
+
+<script>
+    //<![CDATA[
+    jQuery(function($){
+        $str = '.tg';
+        $($str).click(function(){
+            $('p.debug').html("click");
+            $(this).next('.tgo').toggle();
+        });
+        $str2 = '.tgr';
+        $($str2).click(function(){
+            {@ $lastpage = 1; }
+            {@ $temp = $oDocument->getComments() }
+            <!--@if($oDocument->comment_page_navigation)-->
+                {@ $lastpage = $oDocument->comment_page_navigation->last_page }
+            <!--@endif-->
+            loadCommentPage({$oDocument->document_srl}, {$lastpage});
+        });
+        function loadCommentPage(document_srl, page)
+        {
+            var params = {};
+            params.cpage = page;
+            params.document_srl = document_srl;
+            params.mid = current_mid;
+            jQuery.exec_json('board.getBoardCommentPage', params, completeCommentGetPage);
+        }
+        function completeCommentGetPage(ret_val)
+        {
+            jQuery("#Comment_Set").html(ret_val.html);
+        }
+    });
+    //]]>
+</script>
