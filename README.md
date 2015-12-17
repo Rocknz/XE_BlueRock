@@ -6,7 +6,7 @@
 http://www.rakjoon.net/xe/?m=1
 에서 사용 예시를 확인해보실 수 있습니다.
 
-특징은
+# 특징
 1.일반 게시판에 무한페이지 로드.
 
 2.글을 눌렀을시 글내용이 펼쳐지고 각 글의 댓글을 달 수 있음.
@@ -17,7 +17,7 @@ http://www.rakjoon.net/xe/?m=1
 
 Xpress Engine mobile skin.
 
-# BlueRock 은 mobile.layout &  mobile skin 를 같이 사용해야합니다.
+# BlueRock 은 m.layout&m.skin 를 같이 사용해야합니다.
 
 Xpress Engine 의 기본 모바일 레이아웃 이랑 모바일 스킨을 수정하여 만들었습니다.
 Bootstrap 사용.
